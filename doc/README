@@ -1,0 +1,15 @@
+#--------------------------------------------------------------------------
+# File and Version Information:
+#  $Id$
+#
+# Description:
+#  README file for package ExpNameDb
+#------------------------------------------------------------------------
+
+Package author: Andy Salnikov
+
+Brief description:
+==================
+
+Package that provides access to the database (implemented as a text file)
+of experiment names and IDs.

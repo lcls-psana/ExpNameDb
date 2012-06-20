@@ -59,11 +59,11 @@ public:
    *  File name is relative with respect to the $SIT_DATA (one of its components).
    *  If the file is not found the exception is generated.
    *
-   *  @param[in] fname  database file name, default is psana/experiment-db.dat
+   *  @param[in] fname  database file name, default is ExpNameDb/experiment-db.dat
    *
    *  @throw FileNotFoundError if file does not exist
    */
-  explicit ExpNameDatabase (const std::string fname = "psana/experiment-db.dat");
+  explicit ExpNameDatabase (const std::string fname = "ExpNameDb/experiment-db.dat");
 
   /**
    *  @brief Get instrument and experiment name given experiment ID.

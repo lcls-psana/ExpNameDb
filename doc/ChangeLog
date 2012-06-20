@@ -11,6 +11,10 @@ Package author: Andy Salnikov
 Please describe any modifications that you made to the package in the
 reverse time order.
 
+Tag: V00-00-02
+2012-06-20 Andy Salnikov
+- default database file location changed to ExpNameDb/experiment-db.dat
+
 Tag: V00-00-01
 2012-03-08 Andy Salnikov
-- copied the code from few other palces into this package, first release
+- copied the code from few other places into this package, first release

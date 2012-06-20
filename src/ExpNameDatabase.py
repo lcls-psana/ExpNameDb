@@ -60,11 +60,11 @@ class ExpNameDatabase ( object ) :
     #----------------
     #  Constructor --
     #----------------
-    def __init__ ( self, dbname = "psana/experiment-db.dat" ) :
+    def __init__ ( self, dbname = "ExpNameDb/experiment-db.dat" ) :
         """
         Constructor takes the name of the file containing the database
         File name is relative with respect to the $SIT_DATA (one of its components).
-        If the file is not found the exception is generated.
+        If the file is not found an exception is generated.
         """
 
         # find experiment database file

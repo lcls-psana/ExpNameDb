@@ -20,6 +20,9 @@
 //-----------------
 #include <fstream>
 #include <boost/format.hpp>
+#include <dlfcn.h>
+#include <sstream>
+#include <iostream>
 
 //-------------------------------
 // Collaborating Class Headers --
@@ -49,9 +52,28 @@ namespace ExpNameDb {
 ExpNameDatabase::ExpNameDatabase (const std::string fname)
   : m_path(fname)
 {
+  localDat = false;
   if (m_path.path().empty()) {
-    MsgLog(logger, error, "Failed to find database file " << fname);
-    throw FileNotFoundError(ERR_LOC, fname);
+    localDat = true; 
+    std::cout << "It's totally Working\n";
+
+
+    //The file path put in dlopen will need to be updated once the automatic
+    //dependency on psana-expdb is enforced
+
+    void* handle = dlopen("/reg/neh/home/hblair/CondaInC/updatedAndy/myrel/ExpNameDb/src/clib.so",RTLD_NOW);
+    typedef char* (*getData_t)();
+    getData_t getData = (getData_t) dlsym(handle,"returnData");
+    char* theData = getData();
+    std::stringstream ss;
+    ss << theData;
+    theLocalData = ss.str();
+
+    //As the code currently stands, there is no warning thrown if the data
+    //cannot be found.
+		
+//    MsgLog(logger, error, "Failed to find database file " << fname);
+//    throw FileNotFoundError(ERR_LOC, fname);
   }
 }
 
@@ -67,7 +89,14 @@ std::pair<std::string, std::string>
 ExpNameDatabase::getNames(unsigned id) const
 {
   // open file and read it
-  std::ifstream db(m_path.path().c_str());
+  std::stringstream db;
+  if (localDat){
+    db << theLocalData;
+  }
+  else{
+    std::ifstream file(m_path.path().c_str());
+    db << file.rdbuf();
+  }
   unsigned dbExpNum;
   std::string instrName;
   std::string expName;
@@ -96,16 +125,27 @@ ExpNameDatabase::getNames(unsigned id) const
 unsigned
 ExpNameDatabase::getID(const std::string& instrument, const std::string& experiment) const
 {
+
+
   // open file and read it
-  std::ifstream db(m_path.path().c_str());
+  std::stringstream db;
+  if (localDat){
+    db << theLocalData;
+  }
+  else{
+    std::ifstream file(m_path.path().c_str());
+    db << file.rdbuf();
+  }
+  
   unsigned dbExpNum;
   std::string instrName;
   std::string expName;
   unsigned res = 0;
   while (db >> dbExpNum >> instrName >> expName) {
     if (expName == experiment and (instrument.empty() or instrName == instrument)) {
-      res = dbExpNum;
-      break;
+       std::cout << expName << std::endl;
+       res = dbExpNum;
+       break;
     }
   }
   MsgLog(logger, debug, boost::format("ExpNameDatabase::getID(%1%, %2%) -> %3%") % instrument % experiment % res);
@@ -125,7 +165,14 @@ std::pair<std::string, unsigned>
 ExpNameDatabase::getInstrumentAndID(const std::string& experiment) const
 {
   // open file and read it
-  std::ifstream db(m_path.path().c_str());
+  std::stringstream db;
+  if (localDat){
+    db << theLocalData;
+  }
+  else{
+    std::ifstream file(m_path.path().c_str());
+    db << file.rdbuf();
+  }
   unsigned dbExpNum;
   std::string instrName;
   std::string expName;

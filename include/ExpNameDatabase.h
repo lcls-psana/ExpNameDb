@@ -15,6 +15,7 @@
 //-----------------
 #include <string>
 #include <utility>
+#include <sstream>
 
 //----------------------
 // Base Class Headers --
@@ -52,6 +53,8 @@ namespace ExpNameDb {
 
 class ExpNameDatabase  {
 public:
+  std::string theLocalData;
+  bool localDat;
 
   /**
    *  @brief Constructor takes the name of the file containing the database

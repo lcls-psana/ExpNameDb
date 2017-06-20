@@ -55,8 +55,6 @@ ExpNameDatabase::ExpNameDatabase (const std::string fname)
   localDat = false;
   if (m_path.path().empty()) {
     localDat = true; 
-    std::cout << "It's totally Working\n";
-
 
     //The file path put in dlopen will need to be updated once the automatic
     //dependency on psana-expdb is enforced

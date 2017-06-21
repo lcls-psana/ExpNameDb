@@ -26,6 +26,8 @@ __version__ = "$Revision$"
 #--------------------------------
 import sys
 import logging
+import PressedExpData.py
+from PressedExpData import data
 
 #---------------------------------
 #  Imports of base class module --
@@ -42,10 +44,17 @@ from AppUtils.AppDataPath import AppDataPath
 
 def _tripleGen(fname):
     """generator for triples (expnum, instr, exper)"""
-    for line in open(fname):
-        num, instr, exper = line.split()
-        num = int(num)
-        yield num, instr, exper
+    if fname is '':
+        rows = data.split('\n')
+        for row in rows:
+            num, instr, exper = row.split()
+            num = int(num)
+            yield num, instr, exper
+    else:
+        for line in open(fname):
+            num, instr, exper = line.split()
+            num = int(num)
+            yield num, instr, exper
 
 #------------------------
 # Exported definitions --
@@ -69,7 +78,6 @@ class ExpNameDatabase ( object ) :
 
         # find experiment database file
         self.expdbpath = AppDataPath(dbname).path()
-        if not self.expdbpath: raise ValueError("ExpNameDatabase: file name not found: " + dbname)
 
     #-------------------
     #  Public methods --
@@ -78,7 +86,7 @@ class ExpNameDatabase ( object ) :
     def getNames(self, id):
         """
         self.getNames(id: int) -> tuple of 2 strings
-        
+
         Get instrument and experiment name given experiment ID. Takes experiment ID and 
         returns pair of strings, first string is instrument name, second is experiment name,
         both will be empty if ID is not known.

@@ -59,7 +59,7 @@ ExpNameDatabase::ExpNameDatabase (const std::string fname)
     //The file path put in dlopen will need to be updated once the automatic
     //dependency on psana-expdb is enforced
 
-    void* handle = dlopen("/reg/neh/home/hblair/CondaInC/updatedAndy/myrel/ExpNameDb/src/clib.so",RTLD_NOW);
+    void* handle = dlopen("expnamedata.so",RTLD_NOW);
     typedef char* (*getData_t)();
     getData_t getData = (getData_t) dlsym(handle,"returnData");
     char* theData = getData();

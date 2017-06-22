@@ -56,23 +56,23 @@ ExpNameDatabase::ExpNameDatabase (const std::string fname)
   if (m_path.path().empty()) {
     localDat = true; 
 
-    //The file path put in dlopen will need to be updated once the automatic
-    //dependency on psana-expdb is enforced
-
     void* handle = dlopen("expnamedata.so",RTLD_NOW);
-    typedef char* (*getData_t)();
-    getData_t getData = (getData_t) dlsym(handle,"returnData");
-    char* theData = getData();
-    std::stringstream ss;
-    ss << theData;
-    theLocalData = ss.str();
+    if (handle == NULL){
+      MsgLog(logger, error, "Cannot find database in file path: " << fname << "\nor in local storage.");
+      throw FileNotFoundError(ERR_LOC, fname);
+    }
+    else {
+      typedef char* (*getData_t)();
+      getData_t getData = (getData_t) dlsym(handle,"returnData");
+      char* theData = getData();
+      std::stringstream ss;
+      ss << theData;
+      theLocalData = ss.str();
+    }
 
-    //As the code currently stands, there is no warning thrown if the data
-    //cannot be found.
-		
-//    MsgLog(logger, error, "Failed to find database file " << fname);
-//    throw FileNotFoundError(ERR_LOC, fname);
   }
+//    
+
 }
 
 /**

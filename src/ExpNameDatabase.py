@@ -26,8 +26,8 @@ __version__ = "$Revision$"
 #--------------------------------
 import sys
 import logging
-import PressedExpData.py
-from PressedExpData import data
+import ExpNameData.py
+from ExpNameData import data
 
 #---------------------------------
 #  Imports of base class module --

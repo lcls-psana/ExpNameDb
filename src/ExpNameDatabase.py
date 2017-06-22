@@ -26,7 +26,6 @@ __version__ = "$Revision$"
 #--------------------------------
 import sys
 import logging
-import ExpNameData.py
 from ExpNameData import data
 
 #---------------------------------
